@@ -6,6 +6,11 @@ from datetime import date, timedelta
 
 sns.set(palette='pastel')
 
+# Data input. Can we automatically pull from some website????
+daily_infections = np.array([1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1,
+                             1, 0, 2, 1, 6, 4, 3, 3, 3, 4, 12, 5, 10, 13, 17, 15, 33, 37, 68, 94, 81, 176, 129, 146,
+                             204, 251, 142])
+
 sdate = date(2020, 1, 26)   # start date
 edate = date.today() + timedelta(days=4)  # end date
 
@@ -14,11 +19,6 @@ delta = edate - sdate       # as timedelta
 day_list = []
 for i in range(delta.days + 1):
     day_list.append(sdate + timedelta(days=i))
-
-daily_infections = np.array([1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1,
-                             1, 0, 2, 1, 6, 4, 3, 3, 3, 4, 12, 5, 10, 13, 17, 15, 33, 37, 68, 94, 81, 176, 129, 146,
-                             204, 251, 142])
-start_date = 'Jan 26, 2020'
 
 daily_total_infections = []
 for i in range(0, len(daily_infections)):
@@ -52,10 +52,30 @@ for i in range(0, 5):
 
 plt.plot(day_list[4::], projected_daily_total_infections, linestyle='--', label='Projected', color='black')
 plt.gcf().autofmt_xdate()
-plt.title('Daily Total Infections - Canada')
+plt.title('Total Infections - Canada')
 plt.legend()
 
 
 plt.figure()
 plt.plot(day_list[4:-5], three_day_rate_of_growth)
 plt.gcf().autofmt_xdate()
+plt.title('Rate of growth')
+
+# plot daily infections and projected
+plt.figure()
+plt.plot(day_list[0:-5], daily_infections, label='Actual', color='red')
+plt.gcf().autofmt_xdate()
+plt.title('Daily Infections - Canada')
+
+
+projected_daily_infections = projected_daily_total_infections[0:-4] - np.array(daily_total_infections[3::])
+for i in range(len(projected_daily_total_infections) - 4, len(projected_daily_total_infections)):
+    projected_daily_infections = np.hstack([projected_daily_infections,
+                                            projected_daily_total_infections[i] -
+                                            projected_daily_total_infections[i-1]])
+    # projected_daily_infections.append(projected_daily_total_infections[i] - projected_daily_total_infections[i-1])
+
+plt.plot(day_list[4::], projected_daily_infections, linestyle='--', label='Projected', color='black')
+plt.gcf().autofmt_xdate()
+plt.title('Daily Infections - Canada')
+plt.legend()
