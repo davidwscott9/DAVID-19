@@ -1,7 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-import matplotlib.dates as mdates
 from datetime import date, timedelta
 
 sns.set(palette='pastel')
@@ -9,7 +8,7 @@ sns.set(palette='pastel')
 # Data input. Can we automatically pull from some website????
 daily_infections = np.array([1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1,
                              1, 0, 2, 1, 6, 4, 3, 3, 3, 4, 12, 5, 10, 13, 17, 15, 33, 37, 68, 94, 81, 176, 129, 146,
-                             204, 251, 142])
+                             204, 251, 142, 621])
 
 sdate = date(2020, 1, 26)   # start date
 edate = date.today() + timedelta(days=4)  # end date
@@ -34,7 +33,6 @@ def projected_value(daily_total_infections, day):
                                 daily_total_infections[day-3]/daily_total_infections[day-4])/3
     projected_daily_total_infections = three_day_rate_of_growth * daily_total_infections[day-1]
     return projected_daily_total_infections, three_day_rate_of_growth
-
 
 
 projected_daily_total_infections = []
@@ -66,7 +64,6 @@ plt.figure()
 plt.plot(day_list[0:-5], daily_infections, label='Actual', color='red')
 plt.gcf().autofmt_xdate()
 plt.title('Daily Infections - Canada')
-
 
 projected_daily_infections = projected_daily_total_infections[0:-4] - np.array(daily_total_infections[3::])
 for i in range(len(projected_daily_total_infections) - 4, len(projected_daily_total_infections)):
