@@ -3,10 +3,25 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import matplotlib.dates as mdates
 from datetime import date, timedelta
+from bs4 import BeautifulSoup   
+import requests
 
 sns.set(palette='pastel')
 
-# Data input. Can we automatically pull from some website????
+# Set the URL you want to webscrape from
+url = 'https://corona-scanner.com/country/canada'
+
+print("Attempting to get data from corona scanner website")
+
+# Connect to the URL
+response = requests.get(url)
+
+# Parse HTML and save to BeautifulSoup object
+soup = BeautifulSoup(response.text, "html.parser")
+
+list_of_h4s = soup.findAll('h4')
+
+# Data input. Can we automatically pull from some website???? We sure can :)
 daily_infections = np.array([1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1,
                              1, 0, 2, 1, 6, 4, 3, 3, 3, 4, 12, 5, 10, 13, 17, 15, 33, 37, 68, 94, 81, 176, 129, 146,
                              204, 251, 142])
