@@ -8,7 +8,7 @@ sns.set(palette='pastel')
 # Data input. Can we automatically pull from some website????
 daily_infections = np.array([1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1,
                              1, 0, 2, 1, 6, 4, 3, 3, 3, 4, 12, 5, 10, 13, 17, 15, 33, 37, 68, 94, 81, 176, 129, 146,
-                             204, 251, 142, 621])
+                             204, 251, 142, 621, 701])
 
 sdate = date(2020, 1, 26)   # start date
 edate = date.today() + timedelta(days=4)  # end date
@@ -23,7 +23,7 @@ daily_total_infections = []
 for i in range(0, len(daily_infections)):
     daily_total_infections.append(np.sum(daily_infections[0:i+1]))
 
-plt.plot(day_list[0:-5], daily_total_infections, label='Actual', color='red')
+plt.plot(day_list[0:-5], daily_total_infections, label='Actual', color='red', marker='o')
 plt.gcf().autofmt_xdate()
 
 
@@ -54,14 +54,15 @@ plt.title('Total Infections - Canada')
 plt.legend()
 
 
+one_day_rate_of_growth = np.array(daily_total_infections[1::]) / np.array(daily_total_infections[0:-1])
 plt.figure()
-plt.plot(day_list[4:-5], three_day_rate_of_growth)
+plt.plot(day_list[6:-5], one_day_rate_of_growth[5::])
 plt.gcf().autofmt_xdate()
 plt.title('Rate of growth')
 
 # plot daily infections and projected
 plt.figure()
-plt.plot(day_list[0:-5], daily_infections, label='Actual', color='red')
+plt.plot(day_list[0:-5], daily_infections, label='Actual', color='red', marker='o')
 plt.gcf().autofmt_xdate()
 plt.title('Daily Infections - Canada')
 
