@@ -7,15 +7,17 @@ import requests
 
 sns.set(palette='pastel')
 
-# Set the URL you want to webscrape from
-url = 'https://covid2019-api.herokuapp.com/v2/country/canada'
+# Set the URL of the REST api we are getting data from
+url = 'https://coronavirus-tracker-api.herokuapp.com/v2/locations/36'
 
-print("Attempting to get data from corona scanner website")
+print("Attempting to get data from corona tracker website")
 
 # Connect to the URL
 response = requests.get(url)
 
 json = response.json()
+
+timeline_array = json['location']['timelines']['confirmed']['timeline']
 
 # Data input. Can we automatically pull from some website???? We sure can :)
 daily_infections = np.array([1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1,
