@@ -7,10 +7,10 @@ import requests
 
 sns.set(palette='pastel')
 
-# Set the URL of the REST api we are getting data from
-url = 'https://coronavirus-tracker-api.herokuapp.com/v2/locations/36'
+# Set the URL of the REST api we are getting data from (location 42 is for the province of Ontario)
+url = 'https://coronavirus-tracker-api.herokuapp.com/v2/locations/42'
 
-print("Attempting to get data from corona tracker website")
+print("Attempting to get data from coronavirus tracker api")
 
 # Connect to the URL
 response = requests.get(url)
@@ -19,12 +19,20 @@ json = response.json()
 
 timeline_array = json['location']['timelines']['confirmed']['timeline']
 
-# Data input. Can we automatically pull from some website???? We sure can :)
-daily_infections = np.array([1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1,
-                             1, 0, 2, 1, 6, 4, 3, 3, 3, 4, 12, 5, 10, 13, 17, 15, 33, 37, 68, 94, 81, 176, 129, 146,
-                             204, 251, 142, 621, 701])
+base_daily_infections = []
+prev_day = 0
 
-sdate = date(2020, 1, 26)   # start date
+for key in sorted(timeline_array.keys()):
+    base_daily_infections.append(timeline_array[key] - prev_day)
+    prev_day = timeline_array[key]
+
+# Hardcoded data input - shouldn't need anymore
+#daily_infections = np.array([1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1,
+ #                            1, 0, 2, 1, 6, 4, 3, 3, 3, 4, 12, 5, 10, 13, 17, 15, 33, 37, 68, 94, 81, 176, 129, 146,
+  #                           204, 251, 142, 621, 701])
+daily_infections = np.array(base_daily_infections)
+
+sdate = date(2020, 1, 22)   # start date
 edate = date.today() + timedelta(days=4)  # end date
 
 delta = edate - sdate       # as timedelta
@@ -64,7 +72,7 @@ for i in range(0, 5):
 
 plt.plot(day_list[4::], projected_daily_total_infections, linestyle='--', label='Projected', color='black')
 plt.gcf().autofmt_xdate()
-plt.title('Total Infections - Canada')
+plt.title('Total Infections - Ontario, Canada')
 plt.legend()
 
 
@@ -78,7 +86,7 @@ plt.title('Rate of growth')
 plt.figure()
 plt.plot(day_list[0:-5], daily_infections, label='Actual', color='red', marker='o')
 plt.gcf().autofmt_xdate()
-plt.title('Daily Infections - Canada')
+plt.title('Daily Infections - Ontario, Canada')
 
 projected_daily_infections = projected_daily_total_infections[0:-4] - np.array(daily_total_infections[3::])
 for i in range(len(projected_daily_total_infections) - 4, len(projected_daily_total_infections)):
@@ -89,5 +97,5 @@ for i in range(len(projected_daily_total_infections) - 4, len(projected_daily_to
 
 plt.plot(day_list[4::], projected_daily_infections, linestyle='--', label='Projected', color='black')
 plt.gcf().autofmt_xdate()
-plt.title('Daily Infections - Canada')
+plt.title('Daily Infections - Ontario, Canada')
 plt.legend()
