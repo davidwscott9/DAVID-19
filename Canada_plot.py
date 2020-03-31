@@ -34,8 +34,8 @@ def plot_provincial_data(province_id):
 
     daily_infections = np.array(base_daily_infections)
 
-    sdate = date(2020, 1, 21)   # start date
-    edate = date.today() + timedelta(days=4)  # end date
+    sdate = date(2020, 1, 22)   # start date
+    edate = date.today() + timedelta(days=5)  # end date
 
     delta = edate - sdate       # as timedelta
 
@@ -68,9 +68,10 @@ def plot_provincial_data(province_id):
     plt.title('Total Infections - '+name+', Canada')
     plt.legend()
 
+
     one_day_rate_of_growth = np.array(daily_total_infections[1::]) / np.array(daily_total_infections[0:-1])
     plt.figure()
-    plt.plot(day_list[6:-5], one_day_rate_of_growth[5::])
+    plt.plot(day_list[26:-5], one_day_rate_of_growth[25::])
     plt.gcf().autofmt_xdate()
     plt.title('Rate of growth')
 
@@ -90,7 +91,9 @@ def plot_provincial_data(province_id):
     plt.plot(day_list[4::], projected_daily_infections, linestyle='--', label='Projected', color='black')
     plt.gcf().autofmt_xdate()
     plt.title('Daily Infections - '+name+', Canada')
-    plt.legend()   
+    plt.legend()
+
+
 
     return
 
@@ -102,4 +105,3 @@ for province_id in range(35,46):
     plot_provincial_data(province_id)
 
 print("Finished.")
-
