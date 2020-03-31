@@ -37,7 +37,7 @@ for key in sorted(timeline_array.keys()):
 daily_infections = np.array(base_daily_infections)
 
 sdate = date(2020, 1, 22)   # start date
-edate = date.today() + timedelta(days=4)  # end date
+edate = date.today() + timedelta(days=5)  # end date
 
 delta = edate - sdate       # as timedelta
 
@@ -82,7 +82,7 @@ plt.legend()
 
 one_day_rate_of_growth = np.array(daily_total_infections[1::]) / np.array(daily_total_infections[0:-1])
 plt.figure()
-plt.plot(day_list[6:-5], one_day_rate_of_growth[5::])
+plt.plot(day_list[26:-5], one_day_rate_of_growth[25::])
 plt.gcf().autofmt_xdate()
 plt.title('Rate of growth')
 
