@@ -9,6 +9,10 @@ sns.set(palette='pastel')
 
 # Set the URL of the REST api we are getting data from (location 42 is for the province of Ontario)
 url = 'https://coronavirus-tracker-api.herokuapp.com/v2/locations/42'
+# Data input. Can we automatically pull from some website????
+daily_infections = np.array([1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1,
+                             1, 0, 2, 1, 6, 4, 3, 3, 3, 4, 12, 5, 10, 13, 17, 15, 33, 37, 68, 94, 81, 176, 129, 146,
+                             204, 251, 142, 621, 701, 617, 634, 714, 898, 625])
 
 print("Attempting to get data from coronavirus tracker api")
 
