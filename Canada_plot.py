@@ -4,6 +4,7 @@ import seaborn as sns
 from datetime import date, timedelta
 from bs4 import BeautifulSoup   
 import requests
+from operator import add
 
 sns.set(palette='pastel')
 
@@ -95,13 +96,40 @@ def plot_provincial_data(province_id):
 
 
 
-    return
+    return daily_total_infections, projected_daily_total_infections
 
 # Start script
 print("Attempting to get data from coronavirus tracker api")
 
-# Set the URL of the REST api we are getting data from (location 42 is for the province of Ontario)
-for province_id in range(35,46):
-    plot_provincial_data(province_id)
+sdate = date(2020, 1, 22)   # start date
+edate = date.today() + timedelta(days=5)  # end date
+delta = edate - sdate       # as timedelta
+
+day_list = []
+for i in range(delta.days + 1):
+    day_list.append(sdate + timedelta(days=i))
+
+cumulative_total = []
+cumulative_projected_total = []
+
+# Set the URL of the REST api we are getting data from (i.e. location 42 is for the province of Ontario)
+for province_id in range(35,46):    
+    provincial_total_infections, provincial_projected_total_infections = plot_provincial_data(province_id)  
+    if (province_id == 35):
+        cumulative_total = provincial_total_infections
+        cumulative_projected_total = provincial_projected_total_infections  
+    cumulative_total = list( map(add, cumulative_total,provincial_total_infections))
+    cumulative_projected_total = list( map(add, cumulative_projected_total,provincial_projected_total_infections))
+
+# plot daily infections and projected
+plt.figure()
+plt.plot(day_list[0:-5], cumulative_total, label='Actual', color='red', marker='o')
+plt.gcf().autofmt_xdate()
+plt.title('Daily Infections - Canadian Provinces')
+
+plt.plot(day_list[4::], cumulative_projected_total, linestyle='--', label='Projected', color='black')
+plt.gcf().autofmt_xdate()
+plt.title('Daily Infections - Canadian Provinces')
+plt.legend()
 
 print("Finished.")
