@@ -113,7 +113,9 @@ cumulative_total = []
 cumulative_projected_total = []
 
 # Set the URL of the REST api we are getting data from (i.e. location 42 is for the province of Ontario)
-for province_id in range(35,46):    
+for province_id in range(35,46):  
+    if (province_id == 37):
+        continue  
     provincial_total_infections, provincial_projected_total_infections = plot_provincial_data(province_id)  
     if (province_id == 35):
         cumulative_total = provincial_total_infections
@@ -123,7 +125,7 @@ for province_id in range(35,46):
 
 # plot daily infections and projected
 plt.figure()
-plt.plot(day_list[0:-5], cumulative_total, label='Actual', color='red', marker='o')
+plt.plot(day_list[0:-5], cumulative_total, label='Actual', color='red', marker='o')  
 plt.gcf().autofmt_xdate()
 plt.title('Daily Infections - Canadian Provinces')
 
