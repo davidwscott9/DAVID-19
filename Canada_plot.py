@@ -122,17 +122,13 @@ day_list = []
 for i in range(delta.days + 1):
     day_list.append(sdate + timedelta(days=i))
 
-cumulative_total = []
-cumulative_projected_total = []
+cumulative_total, cumulative_projected_total = plot_provincial_data(35)
 
 # Set the URL of the REST api we are getting data from (i.e. location 42 is for the province of Ontario)
-for province_id in range(35,46):  
+for province_id in range(36,46):  
     if (province_id == 37):
         continue  
     provincial_total_infections, provincial_projected_total_infections = plot_provincial_data(province_id)  
-    if (province_id == 35):
-        cumulative_total = provincial_total_infections
-        cumulative_projected_total = provincial_projected_total_infections  
     cumulative_total = list( map(add, cumulative_total,provincial_total_infections))
     cumulative_projected_total = list( map(add, cumulative_projected_total,provincial_projected_total_infections))
 
