@@ -25,6 +25,7 @@ app.index_string = '''
         {%css%}
     </head>
     <body>
+        <h1 align=center>DAVID-19</h1>
         {%app_entry%}
         <footer>
             {%config%}
@@ -37,7 +38,6 @@ app.index_string = '''
 
 # set the app.layout
 app.layout = html.Div([    
-    html.H1('DAVID-19'),
     dcc.Tabs(id="tabs", value='ontario', children=[
         dcc.Tab(label='Alberta', value='35'),
         dcc.Tab(label='British Columbia', value='36'),
