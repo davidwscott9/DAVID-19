@@ -14,6 +14,7 @@ sns.set(palette='pastel')
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 app.config.suppress_callback_exceptions = True
+server = app.server
 
 app.index_string = '''
 <!DOCTYPE html>
@@ -309,4 +310,4 @@ def render_content(tab):
         ])
 
 if __name__ == '__main__':
-    app.run_server()
+    app.run_server(debug=True)
